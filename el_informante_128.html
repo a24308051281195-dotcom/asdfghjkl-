@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Informante 128 — Noticias CBTIS 128</title>
+  <meta name="description" content="Portal de noticias estudiantiles del CBTIS 128.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Libre+Baskerville:wght@400;700&family=Playfair+Display:wght@700;800&display=swap');
+
+    :root {
+      --granite-gray: #636467;
+      --jet-stream: #b7c4c2;
+      --light-slate: #778899;
+      --dark-jungle-green: #171f22;
+      --paper: #eef0ef;
+      --ink: #171f22;
+      --line: rgba(23, 31, 34, .28);
+      --white-glass: rgba(238, 240, 239, .72);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(183,196,194,.45), transparent 30%),
+        linear-gradient(135deg, #eef0ef 0%, #dce2e0 48%, #c7d0ce 100%);
+      font-family: "Libre Baskerville", Georgia, serif;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .08;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+      z-index: 20;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    /* Barra de navegación con efecto glass + blur */
+    .navbar {
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      width: min(1180px, calc(100% - 32px));
+      margin: 12px auto 0;
+      padding: 12px 18px;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 14px;
+      background: rgba(23,31,34,.84);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      box-shadow: 0 12px 35px rgba(23,31,34,.22);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--jet-stream);
+      display: grid;
+      place-items: center;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 800;
+      font-size: 19px;
+      border-radius: 50%;
+      color: var(--jet-stream);
+    }
+
+    .brand-text {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-links a {
+      color: #edf1f0;
+      text-decoration: none;
+      font: 500 12px/1 "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover { color: var(--jet-stream); }
+
+    .date-pill {
+      color: var(--dark-jungle-green);
+      background: var(--jet-stream);
+      padding: 9px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+      font: 500 11px/1 "DM Mono", monospace;
+    }
+
+    /* Cabecera de periódico */
+    .masthead {
+      padding: 64px 0 28px;
+      text-align: center;
+    }
+
+    .edition {
+      font: 500 11px/1.4 "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--granite-gray);
+      margin-bottom: 12px;
+    }
+
+    .masthead h1 {
+      margin: 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(48px, 9vw, 106px);
+      line-height: .86;
+      letter-spacing: -.065em;
+      text-transform: uppercase;
+    }
+
+    .masthead h1 span { color: var(--granite-gray); }
+
+    .rule {
+      height: 1px;
+      background: var(--dark-jungle-green);
+      margin: 22px 0 7px;
+    }
+
+    .rule.thick { height: 5px; margin: 0 0 10px; }
+
+    .mast-subtitle {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      font: 500 10px/1.4 "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--granite-gray);
+    }
+
+    /* Noticias principales */
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 34px 0 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 28px;
+    }
+
+    .section-heading span {
+      font: 500 10px "DM Mono", monospace;
+      color: var(--granite-gray);
+      text-transform: uppercase;
+    }
+
+    .featured {
+      display: grid;
+      grid-template-columns: 1.7fr .9fr;
+      gap: 18px;
+    }
+
+    .news-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(238,240,239,.56);
+      min-height: 240px;
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+
+    .news-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 35px rgba(23,31,34,.15);
+    }
+
+    .hero-card {
+      min-height: 480px;
+      display: flex;
+      align-items: flex-end;
+      background:
+        linear-gradient(180deg, rgba(23,31,34,.05), rgba(23,31,34,.86)),
+        radial-gradient(circle at 70% 25%, #b7c4c2 0 12%, transparent 13%),
+        linear-gradient(135deg, #778899, #171f22 75%);
+    }
+
+    .hero-card::after {
+      content: "CBTIS 128";
+      position: absolute;
+      top: 22px;
+      right: -33px;
+      transform: rotate(45deg);
+      background: var(--jet-stream);
+      color: var(--dark-jungle-green);
+      padding: 7px 38px;
+      font: 700 10px "DM Mono", monospace;
+      letter-spacing: .1em;
+    }
+
+    .hero-content {
+      color: white;
+      padding: 32px;
+      width: 100%;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 5px 8px;
+      background: var(--jet-stream);
+      color: var(--dark-jungle-green);
+      font: 700 9px "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .hero-content h3 {
+      max-width: 780px;
+      margin: 0 0 10px;
+      font: 800 clamp(32px, 5vw, 60px)/.96 "Playfair Display", Georgia, serif;
+      letter-spacing: -.035em;
+    }
+
+    .hero-content p {
+      max-width: 690px;
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(255,255,255,.82);
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .compact-card {
+      min-height: 231px;
+      padding: 24px;
+    }
+
+    .compact-card h3 {
+      margin: 0 0 12px;
+      font: 700 26px/1.05 "Playfair Display", Georgia, serif;
+    }
+
+    .compact-card p {
+      margin: 0;
+      color: #3f4749;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      font: 500 9px "DM Mono", monospace;
+      text-transform: uppercase;
+      color: var(--granite-gray);
+    }
+
+    /* Vista rápida: aparece en el mismo lugar de la noticia */
+    .quick-preview {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(.96);
+      transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: rgba(23,31,34,.76);
+      color: white;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .news-card:hover .quick-preview,
+    .news-card:focus-within .quick-preview {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    .quick-preview strong {
+      font: 700 10px "DM Mono", monospace;
+      text-transform: uppercase;
+      color: var(--jet-stream);
+      letter-spacing: .14em;
+      margin-bottom: 8px;
+    }
+
+    .quick-preview h4 {
+      margin: 0 0 10px;
+      font: 700 28px/1.05 "Playfair Display", Georgia, serif;
+    }
+
+    .quick-preview p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.65;
+      color: rgba(255,255,255,.82);
+    }
+
+    .quick-preview .read {
+      display: inline-block;
+      margin-top: 18px;
+      font: 500 10px "DM Mono", monospace;
+      text-transform: uppercase;
+      color: var(--jet-stream);
+    }
+
+    /* Retícula de noticias */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 5px solid var(--dark-jungle-green);
+      border-bottom: 1px solid var(--dark-jungle-green);
+    }
+
+    .news-grid .news-card {
+      min-height: 330px;
+      padding: 24px;
+      border-top: 0;
+      border-bottom: 0;
+    }
+
+    .news-grid .news-card + .news-card {
+      border-left: 1px solid var(--line);
+    }
+
+    .number {
+      font: 700 42px "Playfair Display", Georgia, serif;
+      color: var(--light-slate);
+      opacity: .75;
+    }
+
+    .news-grid h3 {
+      margin: 10px 0 12px;
+      font: 700 25px/1.05 "Playfair Display", Georgia, serif;
+    }
+
+    .news-grid p {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #414a4d;
+    }
+
+    /* Franja informativa */
+    .ticker {
+      margin: 30px 0;
+      padding: 11px 0;
+      border-top: 1px solid var(--dark-jungle-green);
+      border-bottom: 1px solid var(--dark-jungle-green);
+      overflow: hidden;
+      white-space: nowrap;
+      font: 500 10px "DM Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+    }
+
+    .ticker span {
+      display: inline-block;
+      animation: ticker 24s linear infinite;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-35%); }
+    }
+
+    footer {
+      margin-top: 55px;
+      padding: 30px 0 45px;
+      border-top: 5px solid var(--dark-jungle-green);
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      align-items: flex-start;
+    }
+
+    footer h2 {
+      margin: 0 0 8px;
+      font: 800 27px "Playfair Display", Georgia, serif;
+    }
+
+    footer p {
+      margin: 0;
+      max-width: 600px;
+      color: var(--granite-gray);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .footer-code {
+      text-align: right;
+      font: 500 10px/1.7 "DM Mono", monospace;
+      color: var(--granite-gray);
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 850px) {
+      .nav-links { display: none; }
+      .featured { grid-template-columns: 1fr; }
+      .hero-card { min-height: 430px; }
+      .news-grid { grid-template-columns: 1fr; }
+      .news-grid .news-card + .news-card {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+      .mast-subtitle { flex-direction: column; }
+      .footer-grid { flex-direction: column; }
+      .footer-code { text-align: left; }
+    }
+
+    @media (max-width: 520px) {
+      .container, .navbar { width: min(100% - 20px, 1180px); }
+      .navbar { top: 7px; margin-top: 7px; }
+      .brand-text { font-size: 17px; }
+      .date-pill { font-size: 9px; padding: 8px; }
+      .masthead { padding-top: 45px; }
+      .hero-content { padding: 23px; }
+      .hero-content h3 { font-size: 36px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar" aria-label="Navegación principal">
+    <a href="#" class="brand">
+      <span class="brand-mark">128</span>
+      <span class="brand-text">El Informante 128</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#portada">Portada</a></li>
+      <li><a href="#campus">Campus</a></li>
+      <li><a href="#comunidad">Comunidad</a></li>
+      <li><a href="#cultura">Cultura</a></li>
+    </ul>
+    <div class="date-pill" id="today">09 OCT 2026</div>
+  </nav>
+
+  <main class="container">
+    <header class="masthead" id="portada">
+      <div class="edition">Edición estudiantil · 5.º semestre · CBTIS 128</div>
+      <h1>El <span>Informante</span></h1>
+      <div class="rule"></div>
+      <div class="rule thick"></div>
+      <div class="mast-subtitle">
+        <span>Noticias · Ideas · Comunidad</span>
+        <span id="full-date">Viernes, 9 de octubre de 2026</span>
+        <span>Ciudad Juárez · Chihuahua</span>
+      </div>
+    </header>
+
+    <section id="campus">
+      <div class="section-heading">
+        <h2>En portada</h2>
+        <span>Lo más destacado</span>
+      </div>
+
+      <div class="featured">
+        <article class="news-card hero-card" tabindex="0">
+          <div class="hero-content">
+            <span class="tag">Campus</span>
+            <h3>La comunidad estudiantil vuelve a ser protagonista</h3>
+            <p>
+              Información, proyectos y actividades que muestran el talento y la participación
+              de los estudiantes del CBTIS 128.
+            </p>
+            <div class="meta">
+              <span>Redacción estudiantil</span>
+              <span>09 · 10 · 2026</span>
+            </div>
+          </div>
+          <div class="quick-preview">
+            <strong>Vista rápida · Campus</strong>
+            <h4>Una escuela que también cuenta sus propias historias</h4>
+            <p>
+              Conoce los proyectos, actividades y experiencias que están marcando la vida
+              escolar durante este semestre.
+            </p>
+            <span class="read">Abrir noticia →</span>
+          </div>
+        </article>
+
+        <div class="side-stack">
+          <article class="news-card compact-card" tabindex="0">
+            <span class="tag">Tecnología</span>
+            <h3>Ideas digitales creadas desde el aula</h3>
+            <p>
+              Estudiantes exploran nuevas formas de resolver problemas mediante tecnología,
+              diseño y creatividad.
+            </p>
+            <div class="meta">
+              <span>5.º semestre</span><span>02 min</span>
+            </div>
+            <div class="quick-preview">
+              <strong>Vista rápida · Tecnología</strong>
+              <h4>Del salón a la pantalla</h4>
+              <p>Una mirada breve a las ideas digitales que están naciendo entre estudiantes.</p>
+              <span class="read">Abrir noticia →</span>
+            </div>
+          </article>
+
+          <article class="news-card compact-card" tabindex="0">
+            <span class="tag">Comunidad</span>
+            <h3>La vida escolar más allá de las clases</h3>
+            <p>
+              Actividades, encuentros y momentos que fortalecen la convivencia entre alumnos
+              y docentes.
+            </p>
+            <div class="meta">
+              <span>Comunidad</span><span>03 min</span>
+            </div>
+            <div class="quick-preview">
+              <strong>Vista rápida · Comunidad</strong>
+              <h4>Compartir también es aprender</h4>
+              <p>Las actividades escolares construyen experiencias que permanecen después del aula.</p>
+              <span class="read">Abrir noticia →</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker">
+      <span>CBTIS 128 · INFORMACIÓN ESTUDIANTIL · ACTUALIDAD · CULTURA · TECNOLOGÍA · DEPORTES · COMUNIDAD · CBTIS 128 · INFORMACIÓN ESTUDIANTIL · ACTUALIDAD · CULTURA · TECNOLOGÍA · DEPORTES · COMUNIDAD · </span>
+    </div>
+
+    <section id="comunidad">
+      <div class="section-heading">
+        <h2>Últimas noticias</h2>
+        <span>Selección de la redacción</span>
+      </div>
+
+      <div class="news-grid">
+        <article class="news-card" tabindex="0">
+          <div class="number">01</div>
+          <span class="tag">Cultura</span>
+          <h3>Creatividad que encuentra espacio dentro del plantel</h3>
+          <p>
+            Una selección de propuestas estudiantiles demuestra que las ideas pueden convertirse
+            en proyectos cuando existe un espacio para compartirlas.
+          </p>
+          <div class="meta"><span>Cultura</span><span>01 · 10 · 2026</span></div>
+          <div class="quick-preview">
+            <strong>Vista rápida · Cultura</strong>
+            <h4>Ideas que merecen ser vistas</h4>
+            <p>Conoce las propuestas creativas que están generando conversación entre estudiantes.</p>
+            <span class="read">Abrir noticia →</span>
+          </div>
+        </article>
+
+        <article class="news-card" tabindex="0">
+          <div class="number">02</div>
+          <span class="tag">Deportes</span>
+          <h3>Trabajo en equipo: la otra lección de la cancha</h3>
+          <p>
+            El deporte escolar se convierte en un punto de encuentro donde disciplina,
+            esfuerzo y compañerismo forman parte del aprendizaje.
+          </p>
+          <div class="meta"><span>Deportes</span><span>30 · 09 · 2026</span></div>
+          <div class="quick-preview">
+            <strong>Vista rápida · Deportes</strong>
+            <h4>Más que competir</h4>
+            <p>El verdadero resultado también está en aprender a trabajar juntos.</p>
+            <span class="read">Abrir noticia →</span>
+          </div>
+        </article>
+
+        <article class="news-card" tabindex="0">
+          <div class="number">03</div>
+          <span class="tag">Opinión</span>
+          <h3>¿Qué significa ser estudiante en 2026?</h3>
+          <p>
+            Una reflexión sobre las responsabilidades, oportunidades y retos que acompañan
+            a una nueva generación de estudiantes.
+          </p>
+          <div class="meta"><span>Opinión</span><span>28 · 09 · 2026</span></div>
+          <div class="quick-preview">
+            <strong>Vista rápida · Opinión</strong>
+            <h4>La voz de una generación</h4>
+            <p>Una mirada estudiantil a los cambios que están transformando la vida escolar.</p>
+            <span class="read">Abrir noticia →</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="cultura">
+      <div class="section-heading">
+        <h2>Desde la redacción</h2>
+        <span>Una publicación hecha por estudiantes</span>
+      </div>
+      <div class="rule"></div>
+      <p style="max-width:760px; font-size:15px; line-height:1.9; margin:18px 0 0;">
+        Este espacio puede convertirse en el periódico digital de tu grupo. Sustituye los textos
+        de ejemplo por entrevistas, reportajes, eventos, avisos, opiniones y fotografías de tu
+        comunidad escolar.
+      </p>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div>
+          <h2>El Informante 128</h2>
+          <p>
+            Proyecto web de noticias escolares · CBTIS 128 · 5.º semestre.
+            Diseño editorial inspirado en la estructura visual de un periódico contemporáneo.
+          </p>
+        </div>
+        <div class="footer-code">
+          <div>Edición 001</div>
+          <div>09 OCT 2026</div>
+          <div>© 2026 · Equipo editorial</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Fecha automática: se muestra la fecha actual del dispositivo.
+    const now = new Date();
+
+    const months = [
+      "enero","febrero","marzo","abril","mayo","junio",
+      "julio","agosto","septiembre","octubre","noviembre","diciembre"
+    ];
+
+    const weekdays = [
+      "domingo","lunes","martes","miércoles","jueves","viernes","sábado"
+    ];
+
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const year = now.getFullYear();
+
+    document.getElementById("today").textContent = `${day} ${month} ${year}`;
+    document.getElementById("full-date").textContent =
+      `${weekdays[now.getDay()]}, ${now.getDate()} de ${months[now.getMonth()]} de ${year}`;
+  </script>
+</body>
+</html>

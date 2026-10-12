@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>The NY Times - Noticias</title>
+<style>
+	:root {
+		--background-image: url("https://thumbs.dreamstime.com/b/paisajes-de-yosemite-46208063.jpg");
+	}
+
+	body {
+		font-family: 'Times New Roman', serif;
+		background-color: #f9f9f9;
+		margin: 0;
+		padding: 0;
+		color: #121212;
+	}
+
+	span {
+		font-family: 'Times New Roman', serif;
+	}
+
+	.menuxd {
+		background-color: rgba(36, 34, 34, 0.158);
+		backdrop-filter: blur(5px);
+		position: relative;
+		border-radius: 8px;
+		top: 0;
+		left: 0;
+		width: 100%;
+		box-sizing: border-box;
+		z-index: 1000;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px 20px;
+		border-bottom: 2px solid #121212;
+	}
+
+	.logo {
+		font-size: 35px;
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+		line-height: 80px;
+	}
+
+	.p {
+		text-align: left;
+		font-size: 16px;
+		margin: 0;
+	}
+
+	.buttnon {
+		background-color: rgba(51, 51, 51, 0.03);
+		backdrop-filter: blur(5px);
+		border-radius: 8px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		color: #333333;
+		cursor: pointer;
+		display: inline-block;
+		font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 14px;
+		font-weight: 500;
+		line-height: 20px;
+		margin: 0;
+		padding: 10px 12px;
+		text-align: center;
+		transition: all 200ms;
+		user-select: none;
+		-webkit-user-select: none;
+		touch-action: manipulation;
+		text-decoration: none;
+	}
+
+	.buttnon:hover {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+
+	.trapecio {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+
+	.dospuntosuve {
+		display: flex;
+		gap: 20px;
+		align-items: center;
+		margin-left: auto;
+	}
+
+	.news-container {
+		max-width: 1100px;
+		margin: 30px auto;
+		padding: 0 20px;
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 40px;
+	}
+
+	.main-article {
+		border-right: 1px solid #e2e2e2;
+		padding-right: 30px;
+	}
+
+	.main-article img {
+		width: 100%;
+		height: auto;
+		border-radius: 6px;
+		margin-bottom: 15px;
+	}
+
+	.main-article h2 {
+		font-size: 32px;
+		line-height: 1.2;
+		margin: 10px 0;
+	}
+
+	.main-article .kicker {
+		font-family: sans-serif;
+		font-size: 12px;
+		font-weight: bold;
+		text-transform: uppercase;
+		color: #888;
+		letter-spacing: 1px;
+	}
+
+	.main-article p {
+		font-size: 18px;
+		line-height: 1.6;
+		color: #333;
+	}
+
+	.sidebar {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.sidebar-item {
+		border-bottom: 1px solid #e2e2e2;
+		padding-bottom: 15px;
+	}
+
+	.sidebar-item h3 {
+		font-size: 20px;
+		margin: 5px 0;
+	}
+
+	.sidebar-item p {
+		font-size: 14px;
+		line-height: 1.4;
+		color: #555;
+	}
+
+	@media (max-width: 768px) {
+		.news-container {
+			grid-template-columns: 1fr;
+		}
+		.main-article {
+			border-right: none;
+			padding-right: 0;
+		}
+	}
+</style>
+</head>
+<body class="body">
+	<div class="noticiasnuevas">
+		<header class="menuxd">
+			<h1><a href="index.html" class="logo">NY Times</a></h1>
+			
+			<nav class="dospuntosuve">
+				<div class="trapecio">
+					<a href="formulario.html" class="buttnon">Iniciar sesión</a>
+				</div>
+				<div class="trapecio">
+					<a href="formulario.html" class="buttnon">Crear cuenta</a>
+				</div>
+				<div class="trapecio">
+					<p class="p"><span id="fecha"></span></p>
+				</div>
+			</nav>
+		</header>
+	</div>
+
+	<main class="news-container">
+		<article class="main-article">
+			<span class="kicker">Medio Ambiente & Naturaleza</span>
+			<h2>Descubren Nuevas Especies Marinas en las Profundidades del Océano Pacífico</h2>
+			<img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1000&q=80" alt="Exploración marina">
+			<p>Una expedición científica internacional ha cartografiado la fosa oceánica más profunda de la región y hallado decenas de nuevos organismos marinos adaptados a condiciones extremas de presión y oscuridad total.</p>
+			<p>Los investigadores destacan la importancia de preservar estos ecosistemas vírgenes frente a la creciente amenaza de la minería marina y el cambio climático mundial.</p>
+		</article>
+
+		<aside class="sidebar">
+			<article class="sidebar-item">
+				<h3>Innovación Tecnológica</h3>
+				<p>Nuevos avances en inteligencia artificial prometen revolucionar el diagnóstico médico temprano en hospitales públicos.</p>
+			</article>
+			<article class="sidebar-item">
+				<h3>Economía Global</h3>
+				<p>Los mercados financieros responden positivamente tras el último reporte de inflación publicado esta mañana.</p>
+			</article>
+			<article class="sidebar-item">
+				<h3>Cultura y Arte</h3>
+				<p>Una exposición inédita en el Museo Nacional reúne obras maestras del renacimiento restauradas con tecnología láser.</p>
+			</article>
+		</aside>
+	</main>
+	
+	<script>
+		const hoy = new Date();
+		const fechaFormateada = hoy.toLocaleDateString('es-ES', { 
+			weekday: 'long', 
+			year: 'numeric', 
+			month: 'long', 
+			day: 'numeric' 
+		});
+		document.getElementById('fecha').textContent = fechaFormateada;
+	</script>
+	<footer>
+		Pablo Angel Sanchez Quiñones 5to I 1195
+	</footer>
+</body>
+</html>
+
